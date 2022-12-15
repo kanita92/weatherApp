@@ -2,7 +2,8 @@
 const projectData = {};
 
 // Require Express to run server and routes
-const express = require ('express');
+// const express = require('express');
+import express from 'express';
 
 // Start up an instance of app
 
@@ -40,10 +41,13 @@ function mostRecent( request, response){
     response.send(projectData);
 }
 
-// Then, add a POST route that adds incoming data to projectData.
-// incoming data: temperature, date, response
+// Add a GET route that returns the projectData object in your server code Then, add a POST route that adds incoming data to projectData.
+// The POST route should anticipate receiving three pieces of data from the request body
+// temperature
+// date
+// user response
+// Make sure your POST route is setup to add each of these values with a key to projectData.
 
-const data =[];
 
 app.post('/addMostRecentData', addMostRecentData)
 
@@ -51,12 +55,13 @@ function addMostRecentData (req,res){
 
     newEntry = {
         temp: req.body.temp,
-        content: req.body.content,
-        date:req.body.date
+        content: req.body.userFeelings,
+        date:req.body.newDate
     
     }
 
-    data.push(newEntry)
+    projectData.push(newEntry)
+    res.send(projectData)
     console.log(data)
 }
 

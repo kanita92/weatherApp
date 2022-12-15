@@ -4,37 +4,51 @@
 const baseURL= 'http://api.openweathermap.org/data/2.5/forecast?zip=&appid=eda647e59ce510ca324ce6591fa4e948';
 const apiKey = 'eda647e59ce510ca324ce6591fa4e948&units=imperial';
 
+// Create a new date instance dynamically with JS
+let d = new Date();
+let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+
+// Create an event listener for the element with the id: generate, with a callback function to execute when it is clicked.
+// Inside that callback function call your async GET request with the parameters:
+// base url
+// user entered zip code (see input in html with id zip)
+// personal API key
+
+
 const generateButton = document.getElementById('generate').addEventListener('click', performAction);
 
 function performAction(e){
     const zipCode = document.getElementById('zip').value ;
-    getWeatherByZipCode(baseURL,zipCode,apiKey)
+    const userFeelings = document.getElementById('feelings').value ;
+    getTempByZipCode(baseURL,zipCode,apiKey)
 
+    .then(function(data){
+        console.log(data)
+// final code for creating a POST route to save the data to our app would look like this:
+        postData('/addMostRecentData', {temp:data.main.temp, content:userFeelings, date:newDate} )
+    })
+
+    .then(
+        updateUI()
+      )
 }
 
-//requesting for weather info from openweather map
-const getWeatherByZipCode = async(baseURL,zipCode,apiKey)=>{
 
+// GET route
+    const getTempByZipCode = async(baseURL,zipCode,apiKey)=>{
 
-    const res = await fetch(baseURL+zipCode+key)
+        const res = await fetch(baseURL+zipCode+apiKey)
 
-    try{
+            try{
     
-        const data = await res.json();
-        console.log(data)
+                const data = await res.json();
+                console.log(data)
 
-    }   catch(error){
-        console.log("error",error);
+            }   catch(error){
+                console.log("error",error);
     }
 
-    return 
 }
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-console.log(d);
-
 
 // Client side POST route:
 
@@ -59,14 +73,16 @@ const postData = async ( url = '', data = {})=>{
       }
   }
 
-postData('/addMostRecentData',{})
+
+
+
 
 // Client Side GET route: There should be an asynchronous function 
 // to fetch the data from the app endpoint.
 // Function to GET Project Data:
 
-const retrieveData = async () =>{
- const request = await fetch('/all');
+const updateUI = async () =>{
+ const request = await fetch('/mostRecent');
  try {
  // Transform into JSON
  const allData = await request.json()
