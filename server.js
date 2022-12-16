@@ -2,8 +2,8 @@
 const projectData = {};
 
 // Require Express to run server and routes
-// const express = require('express');
-import express from 'express';
+const express = require('express');
+
 
 // Start up an instance of app
 
@@ -27,19 +27,18 @@ app.use(express.static('website'));
 const port = 3000;
 
 const server = app.listen(port, listening);
-
-function listening(){
-    console.log('server is running');
-    console.log(`server is running on ${port}`);
+    function listening(){
+        console.log('server is running');
+        console.log(`server is running on ${port}`);
 }
 
 // Add a GET route that returns the projectData object in your server code 
 
-app.get('/mostRecent',mostRecent);
+app.get('/all',sendData);
 
-function mostRecent( request, response){
+function sendData(request, response){
     response.send(projectData);
-}
+};
 
 // Add a GET route that returns the projectData object in your server code Then, add a POST route that adds incoming data to projectData.
 // The POST route should anticipate receiving three pieces of data from the request body
@@ -49,9 +48,9 @@ function mostRecent( request, response){
 // Make sure your POST route is setup to add each of these values with a key to projectData.
 
 
-app.post('/addMostRecentData', addMostRecentData)
+app.post('/add', mostRecent)
 
-function addMostRecentData (req,res){
+function mostRecent(req,res){
 
     newEntry = {
         temp: req.body.temp,
@@ -60,9 +59,9 @@ function addMostRecentData (req,res){
     
     }
 
-    projectData.push(newEntry)
+    projectData = newEntry;
     res.send(projectData)
-    console.log(data)
+    console.log(projectData);
 }
 
 

@@ -1,13 +1,13 @@
 // Personal API Key for OpenWeatherMap API
 /* Global Variables */
 
-const baseURL= 'http://api.openweathermap.org/data/2.5/forecast?zip=&appid=eda647e59ce510ca324ce6591fa4e948';
-const apiKey = 'eda647e59ce510ca324ce6591fa4e948&units=imperial';
+const baseURL= 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const apiKey = '&appid=eda647e59ce510ca324ce6591fa4e948&units=imperial';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
-
+let newDate = d.getMonth()+ 1+'.'+ d.getDate()+'.'+ d.getFullYear();
+console.log(newDate);
 // Create an event listener for the element with the id: generate, with a callback function to execute when it is clicked.
 // Inside that callback function call your async GET request with the parameters:
 // base url
@@ -22,30 +22,24 @@ function performAction(e){
     const userFeelings = document.getElementById('feelings').value ;
     getTempByZipCode(baseURL,zipCode,apiKey)
 
-    .then(function(data){
-        console.log(data)
-// final code for creating a POST route to save the data to our app would look like this:
-        postData('/addMostRecentData', {temp:data.main.temp, content:userFeelings, date:newDate} )
-    })
-
-    .then(
-        updateUI()
-      )
-}
-
-
-// GET route
-    const getTempByZipCode = async(baseURL,zipCode,apiKey)=>{
-
-        const res = await fetch(baseURL+zipCode+apiKey)
-
-            try{
+      .then(function(data){
     
-                const data = await res.json();
-                console.log(data)
-
-            }   catch(error){
-                console.log("error",error);
+    // final code for creating a POST route to save the data to our app would look like this:
+        postData('/add', {temp:data.main.temp, feeling:userFeelings, date:d} )
+    })
+      .then(
+        updateUI()
+    ) 
+}
+// GET route
+const getTempByZipCode = async(baseURL,zipCode,apiKey)=>{
+  console.log(getTempByZipCode);
+    const res = await fetch(baseURL+zipCode+apiKey)
+    try{
+        const data = await res.json();
+        console.log(data)
+    }catch(error){
+        console.log("error",error);
     }
 
 }
@@ -69,33 +63,29 @@ const postData = async ( url = '', data = {})=>{
         console.log(newData);
         return newData;
       }catch(error) {
-      console.log("error", error);
+        console.log("error", error);
       }
-  }
-
-
-
-
+  };
 
 // Client Side GET route: There should be an asynchronous function 
 // to fetch the data from the app endpoint.
 // Function to GET Project Data:
 
-const updateUI = async () =>{
- const request = await fetch('/mostRecent');
- try {
+const updateUI = async () => { 
+    const request = await fetch('/all');
+    try {
  // Transform into JSON
- const allData = await request.json()
- console.log(allData)
+        const allData = await request.json()
+   
  // Write updated data to DOM elements
- document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
- document.getElementById('content').innerHTML = allData.feel;
- document.getElementById("date").innerHTML =allData.date;
+       const x = document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
+        const y = document.getElementById('content').innerHTML = allData.feeling;
+       const z =  document.getElementById("date").innerHTML =allData.d;
+       console.log(x,y,z);
+ }  catch(error) {
+        console.log(error);
  }
- catch(error) {
-   console.log("error", error);
-//    appropriately handle the error
- }
+
 }
 
 
