@@ -78,10 +78,9 @@ const updateUI = async () => {
         const allData = await request.json()
    
  // Write updated data to DOM elements
-       const x = document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
-        const y = document.getElementById('content').innerHTML = allData.feeling;
-       const z =  document.getElementById("date").innerHTML =allData.d;
-       console.log(x,y,z);
+      document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
+      document.getElementById('content').innerHTML = allData.feeling;
+      document.getElementById("date").innerHTML =allData.d;
  }  catch(error) {
         console.log(error);
  }
