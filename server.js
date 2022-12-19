@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-const projectData = {};
+projectData = {};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -24,7 +24,7 @@ app.use(express.static('website'));
 
 
 // Setup Server
-const port = 3000;
+const port = 5501;
 
 const server = app.listen(port, listening);
     function listening(){
@@ -51,11 +51,12 @@ function sendData(request, response){
 app.post('/add', mostRecent)
 
 function mostRecent(req,res){
+    console.log(req.body)
 
     newEntry = {
         temp: req.body.temp,
-        content: req.body.userFeelings,
-        date:req.body.newDate
+        content: req.body.feeling,
+        date:req.body.date
     
     }
 

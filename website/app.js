@@ -25,7 +25,7 @@ function performAction(e){
       .then(function(data){
     
     // final code for creating a POST route to save the data to our app would look like this:
-        postData('/add', {temp:data.main.temp, feeling:userFeelings, date:d} )
+        postData('http://localhost:5500/add', {temp:data.main.temp, feeling:userFeelings, date:d} )
     })
       .then(
         updateUI()
@@ -33,11 +33,11 @@ function performAction(e){
 }
 // GET route
 const getTempByZipCode = async(baseURL,zipCode,apiKey)=>{
-  console.log(getTempByZipCode);
     const res = await fetch(baseURL+zipCode+apiKey)
     try{
         const data = await res.json();
         console.log(data)
+return data;
     }catch(error){
         console.log("error",error);
     }
@@ -72,17 +72,14 @@ const postData = async ( url = '', data = {})=>{
 // Function to GET Project Data:
 
 const updateUI = async () => { 
-    const request = await fetch('/all');
+    const request = await fetch('http://localhost:5500/all', {method: 'GET'});
     try {
- // Transform into JSON
-        const allData = await request.json()
-   
- // Write updated data to DOM elements
+      const allData = await request.json();
       document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
       document.getElementById('content').innerHTML = allData.feeling;
-      document.getElementById("date").innerHTML =allData.d;
- }  catch(error) {
-        console.log(error);
+      document.getElementById("date").innerHTML =allData.newDate;
+    }catch(error) {
+        console.log("error",error);
  }
 
 }
