@@ -25,18 +25,17 @@ function performAction(e){
       .then(function(data){
     
     // final code for creating a POST route to save the data to our app would look like this:
-        postData('http://localhost:5500/add', {temp:data.main.temp, feeling:userFeelings, date:d} )
-    })
-      .then(
-        updateUI()
-    ) 
+      postData('http://localhost:5500/add', {temp:data.main.temp, feeling:userFeelings, date:d} )
+        
+      updateUI()
+  }) 
 }
 // GET route
 const getTempByZipCode = async(baseURL,zipCode,apiKey)=>{
     const res = await fetch(baseURL+zipCode+apiKey)
     try{
         const data = await res.json();
-        console.log(data)
+        // console.log(data)
 return data;
     }catch(error){
         console.log("error",error);
@@ -47,8 +46,8 @@ return data;
 // Client side POST route:
 
 const postData = async ( url = '', data = {})=>{
-    console.log(data);
-      const response = await fetch(url, {
+    // console.log(data);
+    const response = await fetch(url, {
       method: 'POST', 
       credentials: 'same-origin',
       headers: {
@@ -58,13 +57,13 @@ const postData = async ( url = '', data = {})=>{
       body: JSON.stringify(data), 
     });
 
-      try {
-        const newData = await response.json();
-        console.log(newData);
-        return newData;
-      }catch(error) {
-        console.log("error", error);
-      }
+    try {
+      const newData = await response.json();
+      console.log(newData);
+      return newData;
+    }catch(error) {
+      console.log("error", error);
+    }
   };
 
 // Client Side GET route: There should be an asynchronous function 
@@ -75,9 +74,11 @@ const updateUI = async () => {
     const request = await fetch('http://localhost:5500/all', {method: 'GET'});
     try {
       const allData = await request.json();
-      document.getElementById('temp').innerHTML = Math.round(allData.temp)+ 'degrees';
-      document.getElementById('content').innerHTML = allData.feeling;
-      document.getElementById("date").innerHTML =allData.newDate;
+      console.log(allData, 'hello')
+      document.getElementById('temp').innerHTML = Math.round(allData.temp) + '' + 'degrees';
+      document.getElementById('content').innerHTML = allData.content;
+      document.getElementById("date").innerHTML =allData.date;
+      return allData;
     }catch(error) {
         console.log("error",error);
  }
