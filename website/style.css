@@ -6,8 +6,7 @@ body {
 #app {
   display: grid;
   grid-auto-rows: minmax(150px, auto);
-  /* grid-template-columns:  */
-  /* height: 100vh; */
+  height: 10vh;
   background: white;
   color: black;
   justify-content: center;
@@ -15,39 +14,46 @@ body {
   font-size: 20px;
   font-family: "Oswald", sans-serif;
   margin: 0;
-  border: 0;
   padding: 0;
 }
 
 .holder {
   font-size: 20px;
+  border: none;
+  
 }
 
 .entry {
-  background: rgba(59, 74, 107, 0.4);
+  display:block;
+  font-size: 30px;
+  /* background: rgb(243, 232, 10); */
+  width: 400px;
 }
 
 #entryHolder {
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #date {
-  font-size: 13px;
+  font-size: 20px;
 }
 
 #temp {
-  font-size: 13px;
+  font-size: 20px;
 }
 
 #content {
-  font-size: 13px;
+  font-size: 20px;
 }
 
 .headline {
   font-size: 40px;
+  margin: 0;
+  border: 0;
+  padding: 0;
 }
 .title {
-  font-size: 13px;
+  font-size: 20px;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
@@ -59,7 +65,7 @@ label {
 input {
   display: block;
   height: 60px;
-  width: 320px;
+  width: 400px;
   background: lightgray;
   color: black;
   font-size: 20px;
@@ -68,14 +74,15 @@ input {
 }
 
 button {
-  width: 400px;
+  display:block;
+  width: 405px;
   height: 100px;
   background: lightgray;
   color: black;
   font-size: 26px;
   font-family: "Oswald", sans-serif;
   border: none;
-  box-shadow: 2px 4px 5px #444;
+  /* box-shadow: 2px 4px 5px #444; */
   padding: 0;
 }
 h1 {
@@ -87,6 +94,7 @@ textarea {
   color: black;
   font-size: 20px;
   font-family: "Oswald", sans-serif;
+  width: 400px;
 }
 /* Reset style for HTML element on active to have no border*/
 input:focus,
